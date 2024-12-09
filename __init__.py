@@ -11,45 +11,7 @@ logger = logging.getLogger(__name__)
 
 def pilot_in_leaderboard(leaderboard, pilot_id):
     return any(pilot['pilot_id'] == pilot_id for pilot in leaderboard)
-
-def best_consecutive_laps(lap_times, x, first_Lap = 1 ):
-    if len(lap_times) < x+ first_Lap:
-        return None  # Not enough laps to calculate
-
-    best_sum = float('inf')  # Start with a large number
-    best_index = -1
-    if (first_Lap == 1):
-        lap_times = lap_times[1:]
-    # Calculate the sum of `x` consecutive laps
-    for i in range(len(lap_times) - x + 1):
-        current_sum = sum(lap_times[i:i+x])
-        if current_sum < best_sum:
-            best_sum = current_sum
-            best_index = i
-
-    # Return the best sum and the laps contributing to it
-    return best_sum, lap_times[best_index:best_index+x]
-def filter_shortest_consecutives(data):
-    pilot_best_runs = {}
-
-    for line in data:
-        pilot_id = line['pilot_id']
-
-        # Skip pilots with laps <= 3
-        if line['laps'] <= 3:
-            continue
-
-        # Parse consecutives_raw to compare numeric values
-        consecutives_time = line['consecutives_raw']
-
-        # Update pilot_best_runs if:
-        # - Pilot is not already in the dict
-        # - Current run has a shorter consecutives time
-        if pilot_id not in pilot_best_runs or consecutives_time < pilot_best_runs[pilot_id]['consecutives_raw']:
-            pilot_best_runs[pilot_id] = line
-
-    return list(pilot_best_runs.values())
-
+    
 def rank_best_laps_HC(rhapi, race_class, args):
     heats = rhapi.db.heats_by_class(race_class.id)
 
