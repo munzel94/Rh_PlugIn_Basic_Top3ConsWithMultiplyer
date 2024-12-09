@@ -96,16 +96,16 @@ def rank_best_laps_HC(rhapi, race_class, args):
 
                         
     meta = {
-    'method_label': F"Best 3 Consecutive Laps with Handicap",   
+    'method_label': F"Best 3 Consecutive Laps with Multiplyer",   
     'rank_fields': [{
         'name': 'consecutives',
         'label': "Consecutive"
     },{
         'name': 'handicap',
-        'label': "Handicap"
+        'label': "Multiplyer"
     },{
         'name': 'consecutives_hc',
-        'label': "Consecutive with Handicap"
+        'label': "Consecutive with Multiplyer"
     },{
         'name': 'consecutives_inSec',
         'label': "Consecutive in Sec"
@@ -116,7 +116,7 @@ def rank_best_laps_HC(rhapi, race_class, args):
 def register_handlers(args):
     args['register_fn'](
         RaceClassRankMethod(
-            "Best 3 Laps with Handicap",
+            "Best 3 Laps with Multiplyer",
             rank_best_laps_HC,
             {
                 'laps': 3
@@ -128,7 +128,7 @@ def register_handlers(args):
 # Initialisierung des Handicaps als Pilotenattribut
 def initialize(rhapi):
     # Pilot attributes
-    handicap = UIField(name='Handicap', label='Handicap', field_type=UIFieldType.TEXT, placeholder="1,0")
+    handicap = UIField(name='Handicap', label='Multiplyer', field_type=UIFieldType.TEXT, placeholder="1,0")
     rhapi.fields.register_pilot_attribute(handicap)
     rhapi.events.on(Evt.CLASS_RANK_INITIALIZE, register_handlers)
 
